@@ -30,7 +30,6 @@ async function getAccessToken(client_id, client_secret, refresh_token){
     };
     try {
         const token =  await axios.request(getAccessToken);
-        // createLabel(token.data.access_token)
         return await getMessage(token.data.access_token);
     }
     catch (error) {
@@ -70,7 +69,6 @@ async function getMessage(token,id){
         to.pop();
         to = to.join("").trim();
 
-        // console.log(to, subject, response.data.id, response.data.threadId);
         if(!lastMessageTime){
             credentials.lastMessageTime = date;
             fs.writeFileSync(`${__dirname}/credentials.json`,JSON.stringify(credentials));
@@ -107,7 +105,6 @@ async function getLabels(token){
     try {
         const response = await axios.request(config);
         const maiLabels = response.data.labels.map(elem => elem = elem.name);
-        // console.log(response.data);
         if(!maiLabels.includes('AutoReply')){
             createLabel(token);
         }
@@ -204,7 +201,6 @@ async function sendReply(token, to, subject, id, threadId){
     
     try {
         const response = await axios.request(config);
-        // console.log({response:response.data});
         console.log('Response sent');
         return response.data;
     } catch (error) {
@@ -216,5 +212,3 @@ async function sendReply(token, to, subject, id, threadId){
 module.exports = {
     Autoreply
 }
-
-// getAccessToken(client_id, client_secret, refresh_token).then().catch(err => console.log(err));
